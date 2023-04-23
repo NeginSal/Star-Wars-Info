@@ -4,7 +4,7 @@ import Planets from "./components/Planets";
 import People from "./components/People";
 
 function App() {
-  [page, setPage] = useState('planets')
+  const [page, setPage] = useState('planets')
   return (
     <div className="App">
       <h1>Star Wars Info</h1>
