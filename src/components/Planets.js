@@ -15,6 +15,7 @@ const Planets = () => {
 
     return (
         <div>
+            <h2>Planets</h2>
             {status === 'loading' && (<div>Loading ...</div>)}
             {status === 'error' && (<div>Error</div>)}
             {status === 'success' && (
