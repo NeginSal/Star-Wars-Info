@@ -1,33 +1,39 @@
-import React from "react";
-import Planet from "./Planet";
-import { useQuery } from 'react-query'
+import React, { useState } from 'react';
+import { useQuery } from 'react-query';
+import Planet from './Planet';
 
-const fetchPlanet = async () => {
-    const res = await fetch('http://swapi.dev/api/planets/');
-    return res.json()
-}
+const fetchPlanets = async (page) => {
+    const res = await fetch(`https://swapi.dev/api/planets/?page=${page}`);
+    return res.json();
+};
 
 const Planets = () => {
+  const [ page, setPage ] = useState(1);
+  const {data, status} = useQuery(['planets', page], () => fetchPlanets(page));
+  console.log(data, status )
+  return (
+    <div>
+      <h2>Planets</h2>
 
-    const { data, status } = useQuery('planets', fetchPlanet)
-    console.log(data)
-    console.log(status)
+      <button onClick={() => setPage(1)}>page 1</button>
+      <button onClick={() => setPage(2)}>page 2</button>
+      <button onClick={() => setPage(3)}>page 3</button>
 
-    return (
+      {status === 'loading' && (
+        <div>Loading data</div>
+      )}
+
+      {status === 'error' && (
+        <div>Error fetching data</div>
+      )}
+
+      {status === 'success' && (
         <div>
-            <h2>Planets</h2>
-            {status === 'loading' && (<div>Loading ...</div>)}
-            {status === 'error' && (<div>Error</div>)}
-            {status === 'success' && (
-                <div>
-                    {data.results.map(planet =>
-                        <Planet planet={planet} key={planet.name} />
-                    )}
-                </div>
-            )}
+          { data.results.map(planet => <Planet key={planet.name} planet={planet} /> ) }
         </div>
-
-    );
+      )} 
+    </div>
+  );
 }
-
+ 
 export default Planets;
