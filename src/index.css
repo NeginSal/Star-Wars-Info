@@ -53,4 +53,9 @@ button:hover {
 .card h3 {
   margin: 10px 0;
   color: #ffff57;
-} 
+}
+
+button:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
